@@ -4,7 +4,7 @@
  * Class for the Dinosaur object
  */
 class Dino {
-    constructor(x, y, w, h, lift) {
+    constructor(x, y, w, h, lift, gravity) {
         this.x = x;
         this.y = y;
         this.width = w;
@@ -16,6 +16,9 @@ class Dino {
 
         // amount of force the dino has to lift itself
         this.lift = lift;
+
+        // gravitational force the dino experiences
+        this.gravity = gravity;
     }
 
     draw() {
@@ -31,20 +34,22 @@ class Dino {
 
     // function for the dino to jump
     // should only jump if the dino is on the ground
-    // receives
     jump() {
-        if(this.velocity == 0) {
+        if (this.velocity == 0) {
             this.velocity = this.lift;
         } else {
-            this.velocity += 0.05;
+            this.velocity += 0.03;
         }
     }
 
     // function for the dino to fall
     // should only fall after reach
-    // receives the downward force
-    fall(downwardForce) {
-        this.velocity += downwardForce;
+    fall() {
+        if (this.velocity == 0) {
+            this.velocity = this.gravity;
+        } else {
+            this.velocity -= 0.03;
+        }
     }
 
 
@@ -53,7 +58,6 @@ class Dino {
     // returns boolean
     reachedPeak(yOfPeakPoint) {
         if (this.y + this.height <= yOfPeakPoint) {
-            this.y = yOfPeakPoint - this.height;
             return true;
         }
     }
@@ -74,8 +78,8 @@ class Dino {
     }
 
     // function for the entire jumping sequence
-    // receives the y coords of ground, y coords of peak point and gravity forces
-    jumpSeq(yOfGround, yOfPeakPoint, gravity) {
+    // receives the y coords of ground, y coords of peak point
+    jumpSeq(yOfGround, yOfPeakPoint) {
         // if jumping / falling, cannot allow key input from user to take effect
         // only when on ground, allow key input from user to take effect
         // only when the dino is in the state of jumping, 
@@ -99,7 +103,7 @@ class Dino {
                 this.falling = false;
                 this.velocity = 0;
             } else {
-                this.fall(gravity);
+                this.fall();
             }
         }
         // update the y coords

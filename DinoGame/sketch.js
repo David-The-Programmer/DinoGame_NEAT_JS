@@ -35,10 +35,10 @@ const Y_OF_DINO = Y_OF_GROUND - DINO_HEIGHT;
 const Y_OF_PEAK = Y_OF_DINO / 1.2;
 
 // starting upward force
-const LIFT = -7;
+const LIFT = -5.1;
 
 // downward force
-const GRAVITY = 0.4;
+const GRAVITY = -1 * LIFT;
 
 // minimum width of the obstacle
 const MIN_CACTUS_WIDTH = 15;
@@ -74,13 +74,13 @@ let dino;
 function setup() {
     // init stuff here
     createCanvas(CANVAS_WIDTH, CANVAS_HEIGHT);
-    dino = new Dino(X_OF_DINO, Y_OF_DINO, DINO_WIDTH, DINO_HEIGHT, LIFT);
+    dino = new Dino(X_OF_DINO, Y_OF_DINO, DINO_WIDTH, DINO_HEIGHT, LIFT, GRAVITY);
 }
 
 function draw() {
     // main game loop here
     background(255);
-    dino.jumpSeq(Y_OF_GROUND, Y_OF_PEAK, GRAVITY);
+    dino.jumpSeq(Y_OF_GROUND, Y_OF_PEAK);
     dino.draw();
 }
 
