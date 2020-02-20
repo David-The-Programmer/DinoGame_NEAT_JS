@@ -6,8 +6,10 @@
 
 function setup() {
     // init stuff here
+    createCanvas(500, 500);
 }
 
 function draw() {
     // main game loop here
+    background(0); 
 }
