@@ -74,6 +74,9 @@ const MIN_DIST_BTWN_OBS = DINO_WIDTH * 8;
 // Dino object
 let dino;
 
+// Obstacle objects
+let obstacles;
+
 function setup() {
     // init stuff here
     createCanvas(CANVAS_WIDTH, CANVAS_HEIGHT);
