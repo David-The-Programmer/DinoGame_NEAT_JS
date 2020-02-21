@@ -74,19 +74,51 @@ const MIN_DIST_BTWN_OBS = DINO_WIDTH * 8;
 // Dino object
 let dino;
 
+// Ground object
+let ground;
+
 // Obstacle objects
-let obstacles;
+let obstacles = [];
+
+// Obstacle generator
+let obstGenerator;
 
 function setup() {
     // init stuff here
     createCanvas(CANVAS_WIDTH, CANVAS_HEIGHT);
-    dino = new Dino(X_OF_DINO, Y_OF_DINO, DINO_WIDTH, DINO_HEIGHT, LIFT, GRAVITY, 
+    dino = new Dino(X_OF_DINO, Y_OF_DINO, DINO_WIDTH, DINO_HEIGHT, LIFT, GRAVITY,
         Y_OF_DINO_DUCKING, DINO_DUCK_WIDTH, DINO_DUCK_HEIGHT);
+    ground = new Ground(0, Y_OF_GROUND, CANVAS_WIDTH, CANVAS_HEIGHT - Y_OF_GROUND);
+    let minCactusDimensions = new Dimension(MIN_CACTUS_WIDTH, MIN_CACTUS_HEIGHT);
+    let midCactusDimensions = new Dimension(MID_CACTUS_WIDTH, MID_CACTUS_HEIGHT);
+    let maxCactusDimensions = new Dimension(MAX_CACTUS_WIDTH, MAX_CACTUS_HEIGHT);
+    let birdDimensions = new Dimension(BIRD_WIDTH, BIRD_HEIGHT);
+    obstGenerator = new ObstaclesGenerator(minCactusDimensions, midCactusDimensions, maxCactusDimensions,
+        birdDimensions, dino, ground);
+
+    obstacles.push(obstGenerator.generateObst());
 }
 
 function draw() {
     // main game loop here
     background(255);
+    ground.draw();
     dino.run(Y_OF_GROUND, Y_OF_PEAK);
     dino.draw();
+    // if the last obstacle is a certain distance away from the end of the canvas,
+    // generate new obstacle
+    if (CANVAS_WIDTH - (obstacles[obstacles.length - 1].x + obstacles[obstacles.length - 1].width) >= MIN_DIST_BTWN_OBS) {
+        obstacles.push(obstGenerator.generateObst());
+    }
+    // if the obstacle has moved out of the canvas, remove it
+    for (let i = obstacles.length - 1; i >= 0; i--) {
+        if (obstacles[i].x + obstacles[i].width <= 0) {
+            obstacles.splice(i, 1);
+        }
+    }
+    for (let i = 0; i < obstacles.length; i++) {
+        obstacles[i].draw();
+        obstacles[i].move(-6);
+    }
+    
 }
