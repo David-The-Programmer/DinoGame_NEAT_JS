@@ -34,6 +34,9 @@ const Y_OF_DINO = Y_OF_GROUND - DINO_HEIGHT;
 // y position of the peak (the bottom of the dino has to reach the peak)
 const Y_OF_PEAK = Y_OF_DINO / 1.2;
 
+// y position of the dino when ducking
+const Y_OF_DINO_DUCKING = Y_OF_DINO + (DINO_HEIGHT - DINO_DUCK_HEIGHT);
+
 // starting upward force
 const LIFT = -5.1;
 
@@ -74,19 +77,13 @@ let dino;
 function setup() {
     // init stuff here
     createCanvas(CANVAS_WIDTH, CANVAS_HEIGHT);
-    dino = new Dino(X_OF_DINO, Y_OF_DINO, DINO_WIDTH, DINO_HEIGHT, LIFT, GRAVITY);
+    dino = new Dino(X_OF_DINO, Y_OF_DINO, DINO_WIDTH, DINO_HEIGHT, LIFT, GRAVITY, 
+        Y_OF_DINO_DUCKING, DINO_DUCK_WIDTH, DINO_DUCK_HEIGHT);
 }
 
 function draw() {
     // main game loop here
     background(255);
-    dino.jumpSeq(Y_OF_GROUND, Y_OF_PEAK);
+    dino.run(Y_OF_GROUND, Y_OF_PEAK);
     dino.draw();
-}
-
-function keyPressed() {
-    // trigger jumping when space is pressed an the dino is on the ground
-    if(key === " " && dino.isOnGround(Y_OF_GROUND)) {
-        dino.triggerJumping();
-    }
 }
