@@ -41,7 +41,7 @@ const Y_OF_DINO_DUCKING = Y_OF_DINO + (DINO_HEIGHT - DINO_DUCK_HEIGHT);
 const LIFT = -6.7;
 
 // downward force
-const GRAVITY = 0.28;
+const GRAVITY = 0.4;
 
 // minimum width of the obstacle
 const MIN_CACTUS_WIDTH = 15;

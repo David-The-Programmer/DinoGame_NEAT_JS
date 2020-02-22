@@ -151,6 +151,7 @@ class Dino {
             this.velocity = 0;
         } else {
             this.velocity += this.gravity;
+            this.velocity *= 0.97;
         }
     }
 
