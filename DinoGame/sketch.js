@@ -89,6 +89,32 @@ let obstacles = [];
 // Obstacle generator
 let obstGenerator;
 
+// sprites for use
+let dinoRunImg1;
+let dinoRunImg2;
+let dinoJumpImg;
+let smallCactusImg;
+let manySmallCactusImg;
+let largeCactusImg;
+let dinoDuckImg1;
+let dinoDuckImg2;
+let birdImg1;
+let birdImg2;
+
+// need to preload all the sprites for use here
+function preload() {
+    dinoRunImg1 = loadImage('assets/dinorun0000.png');
+    dinoRunImg2 = loadImage('assets/dinorun0001.png');
+    dinoJumpImg = loadImage('assets/dino0000.png');
+    smallCactusImg = loadImage('assets/cactusSmall0000.png');
+    manySmallCactusImg = loadImage('assets/cactusSmallMany0000.png');
+    largeCactusImg = loadImage('assets/cactusBig0000.png');
+    dinoDuckImg1 = loadImage('assets/dinoduck0000.png');
+    dinoDuckImg2 = loadImage('assets/dinoduck0001.png');
+    birdImg1 = loadImage('assets/berd.png');
+    birdImg2 = loadImage('assets/berd2.png');
+}
+
 function setup() {
     // init stuff here
     createCanvas(CANVAS_WIDTH, CANVAS_HEIGHT);
@@ -124,12 +150,12 @@ function draw() {
     for (let i = 0; i < obstacles.length; i++) {
         obstacles[i].draw();
         obstacles[i].move(obstSpeed);
-        if(dino.collided(obstacles[i])) {
-           noLoop();
+        if (dino.collided(obstacles[i])) {
+            noLoop();
         }
     }
     dino.draw();
     // increase speed every frame
     obstSpeed += SPEED_INCREASE;
-    
+
 }
