@@ -7,8 +7,8 @@ class Dino {
     constructor(x, y, w, h, lift, gravity, yDuck, widthDuck, heightDuck) {
         this.x = x;
         this.y = y;
-        this.width = w;
-        this.height = h;
+        this.width = w * 0.9;
+        this.height = h * 0.9;
         this.velocity = 0;
         this.jumping = false;
         this.falling = false;

@@ -71,6 +71,9 @@ const Y_OF_GROUND_LINE = Y_OF_GROUND - 5;
 // minimum width between each obstacles
 const MIN_DIST_BTWN_OBS = DINO_WIDTH * 8;
 
+// speed of the movement of the obstacles
+let obstSpeed = -6;
+
 // Dino object
 let dino;
 
@@ -118,7 +121,7 @@ function draw() {
     }
     for (let i = 0; i < obstacles.length; i++) {
         obstacles[i].draw();
-        obstacles[i].move(-6);
+        obstacles[i].move(obstSpeed);
     }
     
 }

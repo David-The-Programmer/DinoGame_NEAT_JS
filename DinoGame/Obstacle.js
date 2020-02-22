@@ -7,8 +7,8 @@ class Obstacle {
     constructor(x, y, w, h, name) {
         this.x = x;
         this.y = y;
-        this.width = w;
-        this.height = h;
+        this.width = w * 0.9;
+        this.height = h * 0.9;
         // name of the obstacle
         // All possible names include:
         // sm-cactus
