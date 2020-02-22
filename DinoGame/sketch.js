@@ -38,10 +38,10 @@ const Y_OF_PEAK = Y_OF_DINO / 1.2;
 const Y_OF_DINO_DUCKING = Y_OF_DINO + (DINO_HEIGHT - DINO_DUCK_HEIGHT);
 
 // starting upward force
-const LIFT = -5.1;
+const LIFT = -6.7;
 
 // downward force
-const GRAVITY = -1 * LIFT;
+const GRAVITY = 0.28;
 
 // minimum width of the obstacle
 const MIN_CACTUS_WIDTH = 15;

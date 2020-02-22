@@ -106,7 +106,6 @@ class Dino {
     // returns boolean
     isOnGround(yOfGround) {
         if (this.y + this.height >= yOfGround) {
-            this.y = yOfGround - this.height;
             return true;
         }
     }
@@ -135,7 +134,7 @@ class Dino {
             if (this.velocity == 0) {
                 this.velocity = this.lift;
             } else {
-                this.velocity += 0.03;
+                this.velocity += 0.005;
             }
         }
     }
@@ -151,11 +150,7 @@ class Dino {
             this.falling = false;
             this.velocity = 0;
         } else {
-            if (this.velocity == 0) {
-                this.velocity = this.gravity;
-            } else {
-                this.velocity -= 0.03;
-            }
+            this.velocity += this.gravity;
         }
     }
 
