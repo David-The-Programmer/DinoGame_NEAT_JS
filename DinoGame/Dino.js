@@ -68,9 +68,9 @@ class Dino {
         } else {
             // if the dino is ducking, adjust the coords and dimensions of image accordingly
             if (this.imgIndex[0] == 3 && this.imgIndex[1] == 4) {
-                imgX = this.x - (this.width / 8);
+                imgX = this.x;
                 imgY = this.y;
-                imgWidth = (this.width / 8) * 10;
+                imgWidth = (this.width / 8) * 9;
                 imgHeight = (this.height / 8) * 10;
             }
             // if the img index length is more than 1, alternate between the two images every 5 frames
