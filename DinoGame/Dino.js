@@ -5,10 +5,10 @@
  */
 class Dino {
     constructor(x, y, w, h, lift, gravity, yDuck, widthDuck, heightDuck) {
-        this.x = x;
-        this.y = y + (h * 0.1);
-        this.width = w * 0.9;
-        this.height = h * 0.9;
+        this.x = x + (w * 0.2);
+        this.y = y + (h * 0.2);
+        this.width = w * 0.8;
+        this.height = h * 0.8;
         this.velocity = 0;
         this.jumping = false;
         this.falling = false;
@@ -33,12 +33,58 @@ class Dino {
 
         // height of the dino when ducking
         this.heightDuck = heightDuck;
+
+        // index(s) of the images to use for animation
+        this.imgIndex = [];
+
+        // timer for animation
+        this.animationTimer = 0;
     }
 
-    draw() {
+    // function to draw the dino
+    // receives an array of images
+    draw(images) {
         stroke(255, 0, 0);
         noFill();
         rect(this.x, this.y, this.width, this.height);
+        // important, the array of images passed in must be in this sequence
+        /**
+         * 1) Dino Run Img 1
+         * 2) Dino Run Img 2
+         * 3) Dino Jump Img
+         * 4) Dino Duck Img 1
+         * 5) Dino Duck Img 2
+         */
+        // time for animation
+        // if the img index length is one, 
+        // only display that image
+        let imgX = this.x - (2 * (this.width / 8));
+        let imgY = this.y - (2 * (this.height / 8));
+        let imgWidth = (this.width / 8) * 12;
+        let imgHeight = (this.height / 8) * 12;
+
+        if (this.imgIndex.length == 1) {
+            image(images[this.imgIndex[0]], imgX, imgY, imgWidth, imgHeight);
+        } else {
+            // if the dino is ducking, adjust the coords and dimensions of image accordingly
+            if (this.imgIndex[0] == 3 && this.imgIndex[1] == 4) {
+                imgX = this.x - (this.width / 8);
+                imgY = this.y;
+                imgWidth = (this.width / 8) * 10;
+                imgHeight = (this.height / 8) * 10;
+            }
+            // if the img index length is more than 1, alternate between the two images every 5 frames
+            if (this.animationTimer >= 0 && this.animationTimer < 5) {
+                image(images[this.imgIndex[0]], imgX, imgY, imgWidth, imgHeight);
+            } else if (this.animationTimer >= 5 && this.animationTimer < 10) {
+                image(images[this.imgIndex[1]], imgX, imgY, imgWidth, imgHeight);
+            }
+        }
+        this.animationTimer++;
+        // reset the animation timer every 10 frames
+        if (this.animationTimer == 10) {
+            this.animationTimer = 0;
+        }
     }
 
     // updates the y coords of the dino
@@ -117,11 +163,11 @@ class Dino {
     // accepts the nearest obstacle in front of it
     // returns boolean
     collided(obstacle) {
-       if(obstacle.x + obstacle.width > this.x && obstacle.x < this.x + this.width) {
-           if(obstacle.y + obstacle.height > this.y && obstacle.y < this.y + this.height) {
-               return true;
-           }
-       }
+        if (obstacle.x + obstacle.width > this.x && obstacle.x < this.x + this.width) {
+            if (obstacle.y + obstacle.height > this.y && obstacle.y < this.y + this.height) {
+                return true;
+            }
+        }
     }
 
     // function to set the dino to standing position
@@ -151,21 +197,25 @@ class Dino {
         }
         // if the jumping is triggered, cause the dino to keep jumping upwards
         if (this.jumping) {
+            this.imgIndex = [2];
             this.jump(yOfPeakPoint);
 
         } else if (this.falling) {
             // if the falling is now triggered (after dino has reached peak point), 
             // cause dino to keep falling (until it reaches the ground)
+            this.imgIndex = [2];
             this.fall(yOfGround);
 
         } else if (this.ducking) {
             // if ducking is triggered, cause the dino to duck
+            this.imgIndex = [3, 4];
             this.duck();
 
         } else {
             // if no keys are pressed,
             // and the dino is not in any state of jumping, falling or ducking,
             // set the dino to be in the standing position
+            this.imgIndex = [0, 1];
             this.setToStandingPos();
         }
         // update the y coords

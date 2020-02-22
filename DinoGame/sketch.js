@@ -154,7 +154,10 @@ function draw() {
             noLoop();
         }
     }
-    dino.draw();
+    // console.log(`Dino Jumping State: ${dino.jumping}`);
+    // console.log(`Dino Falling State: ${dino.falling}`);
+    // console.log(`Dino Ducking State: ${dino.ducking}`);
+    dino.draw([dinoRunImg1, dinoRunImg2, dinoJumpImg, dinoDuckImg1, dinoDuckImg2]);
     // increase speed every frame
     obstSpeed += SPEED_INCREASE;
 
