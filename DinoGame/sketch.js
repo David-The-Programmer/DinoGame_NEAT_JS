@@ -148,15 +148,12 @@ function draw() {
         }
     }
     for (let i = 0; i < obstacles.length; i++) {
-        obstacles[i].draw();
+        obstacles[i].draw([smallCactusImg, manySmallCactusImg, largeCactusImg, birdImg1, birdImg2]);
         obstacles[i].move(obstSpeed);
         if (dino.collided(obstacles[i])) {
             noLoop();
         }
     }
-    // console.log(`Dino Jumping State: ${dino.jumping}`);
-    // console.log(`Dino Falling State: ${dino.falling}`);
-    // console.log(`Dino Ducking State: ${dino.ducking}`);
     dino.draw([dinoRunImg1, dinoRunImg2, dinoJumpImg, dinoDuckImg1, dinoDuckImg2]);
     // increase speed every frame
     obstSpeed += SPEED_INCREASE;
