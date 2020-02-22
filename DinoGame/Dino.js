@@ -6,7 +6,7 @@
 class Dino {
     constructor(x, y, w, h, lift, gravity, yDuck, widthDuck, heightDuck) {
         this.x = x;
-        this.y = y;
+        this.y = y + (h * 0.1);
         this.width = w * 0.9;
         this.height = h * 0.9;
         this.velocity = 0;
@@ -21,9 +21,9 @@ class Dino {
         // gravitational force the dino experiences
         this.gravity = gravity;
 
-        this.originalY = y;
-        this.originalWidth = w;
-        this.originalHeight = h;
+        this.originalY = this.y;
+        this.originalWidth = this.width;
+        this.originalHeight = this.height;
 
         // y of the dino when ducking
         this.yDuck = yDuck;
@@ -117,15 +117,11 @@ class Dino {
     // accepts the nearest obstacle in front of it
     // returns boolean
     collided(obstacle) {
-        // (if the x of dino <= x of obstacle + obstacle width || 
-        // if the x of dino + dino width >= x of obstacle) &&
-        // (if the y of dino <= y of obstacle + obstacle height ||
-        // if the y of dino + dino height >= y of obstacle)
-        // If the conditions above are fulfilled, then dino has collided with obstacle
-        if (((this.x <= (obstacle.x + obstacle.width)) || ((this.x + this.width) >= obstacle.x))
-            && ((this.y <= (obstacle.y + obstacle.height)) || ((this.y + this.height) >= obstacle.y))) {
-            return true;
-        }
+       if(obstacle.x + obstacle.width > this.x && obstacle.x < this.x + this.width) {
+           if(obstacle.y + obstacle.height > this.y && obstacle.y < this.y + this.height) {
+               return true;
+           }
+       }
     }
 
     // function to set the dino to standing position
@@ -147,7 +143,7 @@ class Dino {
     // receives the y of ground, y of peak point, 
     run(yOfGround, yOfPeakPoint) {
         // trigger jumping when space is pressed an the dino is on the ground
-        if (keyIsPressed && key == " " && this.isOnGround(yOfGround) && !this.falling) {
+        if (keyIsPressed && key == " " && this.isOnGround(yOfGround) && !this.falling && !this.ducking) {
             this.triggerJumping();
         } else if (keyIsPressed && keyCode == DOWN_ARROW && this.isOnGround(yOfGround)) {
             // trigger the dino to duck when down arrow key is pressed

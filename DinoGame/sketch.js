@@ -71,8 +71,11 @@ const Y_OF_GROUND_LINE = Y_OF_GROUND - 5;
 // minimum width between each obstacles
 const MIN_DIST_BTWN_OBS = DINO_WIDTH * 8;
 
+// amount which the speed increases by 
+const SPEED_INCREASE = -0.00001;
+
 // speed of the movement of the obstacles
-let obstSpeed = -6;
+let obstSpeed = -5;
 
 // Dino object
 let dino;
@@ -107,7 +110,6 @@ function draw() {
     background(255);
     ground.draw();
     dino.run(Y_OF_GROUND, Y_OF_PEAK);
-    dino.draw();
     // if the last obstacle is a certain distance away from the end of the canvas,
     // generate new obstacle
     if (CANVAS_WIDTH - (obstacles[obstacles.length - 1].x + obstacles[obstacles.length - 1].width) >= MIN_DIST_BTWN_OBS) {
@@ -122,6 +124,12 @@ function draw() {
     for (let i = 0; i < obstacles.length; i++) {
         obstacles[i].draw();
         obstacles[i].move(obstSpeed);
+        if(dino.collided(obstacles[i])) {
+           noLoop();
+        }
     }
+    dino.draw();
+    // increase speed every frame
+    obstSpeed += SPEED_INCREASE;
     
 }
