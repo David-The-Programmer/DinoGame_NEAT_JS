@@ -19,6 +19,9 @@ class Obstacle {
 
         // timer for animation
         this.animationTimer = 0;
+
+        // speed of movement of the obstacle
+        this.speed = 0;
     }
 
     // function to draw the cactus and birds
@@ -67,7 +70,8 @@ class Obstacle {
     }
 
     move(s) {
-        this.x += s;
+        this.speed = s;
+        this.x += this.speed;
     }
 
 }

@@ -219,6 +219,53 @@ class Dino {
         }
         // update the y coords
         this.update();
-        this.gameScore++;
+        // increment game score every 4 frames
+        if (frameCount % 4 == 0) {
+            this.gameScore++;
+        }
+    }
+
+    // function to generate inputs for NEAT players
+    // receives the all the obstacles
+    // returns an array of inputs
+    genInputs(obstacles) {
+        // first, need to get the nearest incoming obstacle (to the dino)
+        // to store array of indexes of obstacles
+        let indexOfObst = [];
+        for (let i = 0; i < obstacles.length; i++) {
+            indexOfObst.push(i);
+        }
+        for (let i = indexOfObst.length - 1; i >= 0; i--) {
+            // need to remove all obstacles that have gone past the dino
+            if (obstacles[indexOfObst[i]].x + obstacles[indexOfObst[i]].width < this.x) {
+                indexOfObst.splice(i, 1);
+            }
+        }
+        // nearest obstacle
+        let nearestObst = obstacles[indexOfObst[0]];
+
+        // inputs to be returned
+        let inputs = [];
+        // inputs
+        /**
+         * 1) Distance to the nearest incoming obstacle
+         * 2) Y of the obstacle
+         * 3) Y of obstacle + height of obstacle
+         * 4) Dino Y position
+         * 5) Speed of obstacles
+         * 6) Bias
+         */
+        inputs[0] = nearestObst.x - (this.x + this.width);
+        inputs[1] = nearestObst.y;
+        inputs[2] = nearestObst.y + nearestObst.height;
+        inputs[3] = this.y;
+        inputs[4] = nearestObst.speed;
+        inputs[5] = 1;
+        return inputs;
+    }
+
+    // function to calculate the fitness of a dino
+    calcFitness() {
+        return this.gameScore ** 2;
     }
 }

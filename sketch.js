@@ -196,4 +196,6 @@ function draw() {
     // need to generate new population
     // by calling the function population.getNewPopulation();
 
+    console.log(dinos[0].calcFitness());
+
 }

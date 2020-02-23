@@ -15,6 +15,6 @@ const NEAT_CONFIGS = {
     compatibility_threshold: 2.5,
     prune_percentage: 0.5,
     // Genome configs
-    input_nodes: 8,
+    input_nodes: 6,
     output_nodes: 2,
 };
