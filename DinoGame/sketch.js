@@ -32,7 +32,7 @@ const Y_OF_GROUND = CANVAS_HEIGHT * (3 / 4);
 const Y_OF_DINO = Y_OF_GROUND - DINO_HEIGHT;
 
 // y position of the peak (the bottom of the dino has to reach the peak)
-const Y_OF_PEAK = Y_OF_DINO / 1.2;
+const Y_OF_PEAK = Y_OF_DINO / 1.25;
 
 // y position of the dino when ducking
 const Y_OF_DINO_DUCKING = Y_OF_DINO + (DINO_HEIGHT - DINO_DUCK_HEIGHT);
@@ -101,6 +101,9 @@ let dinoDuckImg2;
 let birdImg1;
 let birdImg2;
 
+// game score to be displayed
+let gameScore = new GameScore(CANVAS_WIDTH * 0.9, CANVAS_HEIGHT * 0.1);
+
 // need to preload all the sprites for use here
 function preload() {
     dinoRunImg1 = loadImage('assets/dinorun0000.png');
@@ -134,8 +137,10 @@ function setup() {
 function draw() {
     // main game loop here
     background(255);
+    gameScore.draw(dino.gameScore);
     ground.draw();
     dino.run(Y_OF_GROUND, Y_OF_PEAK);
+    dino.draw([dinoRunImg1, dinoRunImg2, dinoJumpImg, dinoDuckImg1, dinoDuckImg2]);
     // if the last obstacle is a certain distance away from the end of the canvas,
     // generate new obstacle
     if (CANVAS_WIDTH - (obstacles[obstacles.length - 1].x + obstacles[obstacles.length - 1].width) >= MIN_DIST_BTWN_OBS) {
@@ -154,7 +159,6 @@ function draw() {
             noLoop();
         }
     }
-    dino.draw([dinoRunImg1, dinoRunImg2, dinoJumpImg, dinoDuckImg1, dinoDuckImg2]);
     // increase speed every frame
     obstSpeed += SPEED_INCREASE;
 

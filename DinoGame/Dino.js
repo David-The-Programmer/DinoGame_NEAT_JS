@@ -39,6 +39,10 @@ class Dino {
 
         // timer for animation
         this.animationTimer = 0;
+
+        // game score of the dino
+        this.gameScore = 0;
+
     }
 
     // function to draw the dino
@@ -216,6 +220,6 @@ class Dino {
         }
         // update the y coords
         this.update();
-
+        this.gameScore++;
     }
 }
