@@ -198,7 +198,7 @@ class Dino {
             this.triggerJumping();
             this.setToStandingPos();
         } else if(outputs[1] >= outputs[0] && outputs[1] >= outputs[2] &&
-            this.isOnGround(yOfGround) && !this.falling && !this.ducking) {
+            this.isOnGround(yOfGround) && !this.falling && !this.ducking && !this.jumping) {
             this.triggerDucking();
         }
         // if the jumping is triggered, cause the dino to keep jumping upwards
