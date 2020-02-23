@@ -71,10 +71,13 @@ const Y_OF_GROUND_LINE = Y_OF_GROUND - 5;
 const MIN_DIST_BTWN_OBS = DINO_WIDTH * 8;
 
 // amount which the speed increases by 
-const SPEED_INCREASE = -0.00001;
+const SPEED_INCREASE = -0.001;
+
+// original speed of obstacles
+const ORIG_OBST_SPEED = -5;
 
 // speed of the movement of the obstacles
-let obstSpeed = -5;
+let obstSpeed = ORIG_OBST_SPEED;
 
 // Array of Dinos
 let dinos = [];
@@ -131,9 +134,9 @@ function setup() {
     population.initPopulation();
 
     // init the dinos
-    for(let i = 0; i < NEAT_CONFIGS.total_pop; i++) {
+    for (let i = 0; i < NEAT_CONFIGS.total_pop; i++) {
         dinos.push(new Dino(X_OF_DINO, Y_OF_DINO, DINO_WIDTH, DINO_HEIGHT, LIFT, GRAVITY,
-        Y_OF_DINO_DUCKING, DINO_DUCK_WIDTH, DINO_DUCK_HEIGHT));
+            Y_OF_DINO_DUCKING, DINO_DUCK_WIDTH, DINO_DUCK_HEIGHT, i));
     }
 
     // init the dimensions of obstacles
@@ -156,46 +159,61 @@ function draw() {
     // gameScore.draw(dino.gameScore);
     ground.draw();
 
-    for(let i = 0; i < dinos.length; i++) {
-        // need to get inputs from dino here
-        // need to send inputs to NEAT 
-        // by calling population.population[index].player(inputs)
-        // function above would give output
-        // use output to select course of action (jump or duck)
-        // pass output to dino.run()
-        // softmax the output when passing into dino.run()
-        dinos[i].run(Y_OF_GROUND, Y_OF_PEAK);
-        dinos[i].draw([dinoRunImg1, dinoRunImg2, dinoJumpImg, dinoDuckImg1, dinoDuckImg2])
-    }
-    // if the last obstacle is a certain distance away from the end of the canvas,
-    // generate new obstacle
-    if (CANVAS_WIDTH - (obstacles[obstacles.length - 1].x + obstacles[obstacles.length - 1].width) >= MIN_DIST_BTWN_OBS) {
-        obstacles.push(obstGenerator.generateObst());
-    }
-    // if the obstacle has moved out of the canvas, remove it
-    for (let i = obstacles.length - 1; i >= 0; i--) {
-        if (obstacles[i].x + obstacles[i].width <= 0) {
-            obstacles.splice(i, 1);
-        }
-    }
-    for (let i = 0; i < obstacles.length; i++) {
-        obstacles[i].draw([smallCactusImg, manySmallCactusImg, largeCactusImg, birdImg1, birdImg2]);
-        obstacles[i].move(obstSpeed);
-        for(let j = dinos.length - 1; j >= 0; j--) {
-            if(dinos[j].collided(obstacles[i])) {
-                // once a dino dies, set fitness score of NEAT player
-                // by calling population.population[index].setScore(fitnessScore)
-                dinos.splice(j, 1);
-            }
-        }
-    }
-    // increase speed every frame
-    obstSpeed += SPEED_INCREASE;
-
     // Once all the dinos die, 
     // need to generate new population
-    // by calling the function population.getNewPopulation();
+    if (dinos.length == 0) {
+        // need to remove all the obstacles and start over
+        obstacles = [];
+        obstacles.push(obstGenerator.generateObst());
+        // reset variables too
+        obstSpeed = ORIG_OBST_SPEED;
+        population.getNewPopulation();
+        // init the dinos
+        for (let i = 0; i < NEAT_CONFIGS.total_pop; i++) {
+            dinos.push(new Dino(X_OF_DINO, Y_OF_DINO, DINO_WIDTH, DINO_HEIGHT, LIFT, GRAVITY,
+                Y_OF_DINO_DUCKING, DINO_DUCK_WIDTH, DINO_DUCK_HEIGHT, i));
+        }
+    } else {
+        for (let i = 0; i < dinos.length; i++) {
+            // need to get inputs from dino here
+            // need to send inputs to NEAT 
+            // by calling population.population[index].player(inputs)
+            // function above would give output
+            // use output to select course of action (jump or duck)
+            // pass output to dino.run()
+            // softmax the output when passing into dino.run()
+            let outputs = population.population[dinos[i].index].play(dinos[i].genInputs(obstacles));
+            dinos[i].run(Y_OF_GROUND, Y_OF_PEAK, softMax(outputs));
+            dinos[i].draw([dinoRunImg1, dinoRunImg2, dinoJumpImg, dinoDuckImg1, dinoDuckImg2])
+        }
+        // if the last obstacle is a certain distance away from the end of the canvas,
+        // generate new obstacle
+        if (CANVAS_WIDTH - (obstacles[obstacles.length - 1].x + obstacles[obstacles.length - 1].width) >= MIN_DIST_BTWN_OBS) {
+            obstacles.push(obstGenerator.generateObst());
+        }
+        // if the obstacle has moved out of the canvas, remove it
+        for (let i = obstacles.length - 1; i >= 0; i--) {
+            if (obstacles[i].x + obstacles[i].width <= 0) {
+                obstacles.splice(i, 1);
+            }
+        }
+        for (let i = 0; i < obstacles.length; i++) {
+            obstacles[i].draw([smallCactusImg, manySmallCactusImg, largeCactusImg, birdImg1, birdImg2]);
+            obstacles[i].move(obstSpeed);
+            for (let j = dinos.length - 1; j >= 0; j--) {
+                if (dinos[j].collided(obstacles[i])) {
+                    // once a dino dies, set fitness score of NEAT player
+                    // by calling population.population[index].setScore(fitnessScore)
+                    population.population[dinos[j].index].setScore(dinos[j].calcFitness())
+                    dinos.splice(j, 1);
+                }
+            }
+        }
+        // increase speed every frame
+        obstSpeed += SPEED_INCREASE;
+    }
 
-    console.log(dinos[0].calcFitness());
+
+
 
 }

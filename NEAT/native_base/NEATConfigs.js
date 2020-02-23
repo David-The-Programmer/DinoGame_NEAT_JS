@@ -3,7 +3,7 @@ const NEAT_CONFIGS = {
     total_pop: 200,
     // NEAT configurations
     mutation_rates: {
-        add_node: 0.01,
+        add_node: 0.001,
         add_connection: 0.0001,
         shift_weight: 0.2,
         new_weight: 0.05,
@@ -16,5 +16,5 @@ const NEAT_CONFIGS = {
     prune_percentage: 0.5,
     // Genome configs
     input_nodes: 6,
-    output_nodes: 2,
+    output_nodes: 3,
 };

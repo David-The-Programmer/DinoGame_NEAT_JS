@@ -4,7 +4,7 @@
  * Class for the Dinosaur object
  */
 class Dino {
-    constructor(x, y, w, h, lift, gravity, yDuck, widthDuck, heightDuck) {
+    constructor(x, y, w, h, lift, gravity, yDuck, widthDuck, heightDuck, index) {
         this.x = x + (w * 0.2);
         this.y = y + (h * 0.2);
         this.width = w * 0.8;
@@ -41,6 +41,9 @@ class Dino {
 
         // game score of the dino
         this.gameScore = 0;
+
+        // index of the NEAT players playing the dino
+        this.index = index;
 
     }
 
@@ -185,13 +188,17 @@ class Dino {
     }
 
     // function to run the main game
-    // receives the y of ground, y of peak point, 
-    run(yOfGround, yOfPeakPoint) {
-        // trigger jumping when space is pressed an the dino is on the ground
-        if (keyIsPressed && key == " " && this.isOnGround(yOfGround) && !this.falling && !this.ducking) {
+    // receives the y of ground, y of peak point and outputs of NEAT 
+    run(yOfGround, yOfPeakPoint, outputs) {
+        // if Neural Net decides to jump, trigger jumping
+        // if not, trigger ducking
+        // if not, do nothing
+        if(outputs[0] >= outputs[1] && outputs[0] >= outputs[2] &&
+            this.isOnGround(yOfGround) && !this.falling && !this.ducking && !this.jumping) {
             this.triggerJumping();
-        } else if (keyIsPressed && keyCode == DOWN_ARROW && this.isOnGround(yOfGround)) {
-            // trigger the dino to duck when down arrow key is pressed
+            this.setToStandingPos();
+        } else if(outputs[1] >= outputs[0] && outputs[1] >= outputs[2] &&
+            this.isOnGround(yOfGround) && !this.falling && !this.ducking) {
             this.triggerDucking();
         }
         // if the jumping is triggered, cause the dino to keep jumping upwards
