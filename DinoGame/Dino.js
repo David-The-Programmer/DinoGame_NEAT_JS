@@ -13,7 +13,6 @@ class Dino {
         this.jumping = false;
         this.falling = false;
         this.ducking = false;
-        this.gameOver = false;
 
         // amount of force the dino has to lift itself
         this.lift = lift;
