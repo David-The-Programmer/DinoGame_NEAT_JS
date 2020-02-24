@@ -10,12 +10,12 @@ class TextTag {
         this.score = 0;
     }
 
-    draw(score) {
+    draw(string) {
         push();
         fill(0);
         noStroke();
         textSize(20);
-        text(`${score}`, this.x, this.y);
+        text(string, this.x, this.y);
         pop();
     }
 }
