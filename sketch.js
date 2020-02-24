@@ -71,7 +71,7 @@ const Y_OF_GROUND_LINE = Y_OF_GROUND - 5;
 const MIN_DIST_BTWN_OBS = DINO_WIDTH * 8;
 
 // amount which the speed increases by 
-const SPEED_INCREASE = -0.001;
+const SPEED_INCREASE = -0.0001;
 
 // original speed of obstacles
 const ORIG_OBST_SPEED = -5;
