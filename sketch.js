@@ -234,12 +234,15 @@ function displayStats() {
 
     gameScoreTag.updateText(`${score}`);
     highScoreTag.updateText(`HI ${highScore}`);
+    numGensTag.updateText(`Generation: ${population.generation}`);
 
     gameScoreTag.updateCoords(CANVAS_WIDTH - gameScoreTag.getWidth(), gameScoreTag.getHeight());
     highScoreTag.updateCoords(CANVAS_WIDTH - (highScoreTag.getWidth() * 2), highScoreTag.getHeight());
+    numGensTag.updateCoords((CANVAS_WIDTH / 2)  - (numGensTag.getWidth() / 2), numGensTag.getHeight());
 
     gameScoreTag.draw();
     highScoreTag.draw();
+    numGensTag.draw();
 }
 
 // function to calculate the current highest score of the current generation
