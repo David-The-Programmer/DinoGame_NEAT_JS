@@ -1,4 +1,4 @@
-# NEAT Dino Game([Demo]())
+# NEAT Dino Game([Demo](https://david-the-programmer.github.io/DinoGame_NEAT_JS/))
 This is my first attempt at using NEAT (Neural Evolution of Augmenting Topologies) on a clone of the Chrome Dino Game.
 
 NEAT is basically the combination of neural networks and genetic algorithms. Not only can the weights of the neural networks can evolve, so can the structure (topology) of the neural network.
