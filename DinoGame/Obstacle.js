@@ -27,9 +27,6 @@ class Obstacle {
     // function to draw the cactus and birds
     // receives an array of images
     draw(images) {
-        stroke(0, 255, 0);
-        noFill();
-        rect(this.x, this.y, this.width, this.height);
         // important, the array of images passed in must be in this sequence
         /**
          * 1) sm-cactus

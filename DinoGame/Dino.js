@@ -50,9 +50,6 @@ class Dino {
     // function to draw the dino
     // receives an array of images
     draw(images) {
-        stroke(255, 0, 0);
-        noFill();
-        rect(this.x, this.y, this.width, this.height);
         // important, the array of images passed in must be in this sequence
         /**
          * 1) Dino Run Img 1
