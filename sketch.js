@@ -167,7 +167,7 @@ function setup() {
     obstacles.push(obstGenerator.generateObst());
     // init slider to speed up the training process
     slider = createSlider(1, 50, 1);
-
+    slider.position((CANVAS_WIDTH - slider.width) / 2, CANVAS_HEIGHT);
 }
 
 function draw() {
