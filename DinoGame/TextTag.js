@@ -1,9 +1,9 @@
 /**
- * File: GameScore.js
+ * File: TextTag.js
  * ------------------
- * Class for the game score object
+ * Class for the Text Tag object
  */
-class GameScore {
+class TextTag {
     constructor(x, y) {
         this.x = x;
         this.y = y;

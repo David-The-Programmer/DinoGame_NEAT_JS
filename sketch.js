@@ -104,7 +104,7 @@ let birdImg1;
 let birdImg2;
 
 // game score to be displayed
-let gameScore = new GameScore(CANVAS_WIDTH * 0.9, CANVAS_HEIGHT * 0.1);
+let gameScore = new TextTag(CANVAS_WIDTH * 0.9, CANVAS_HEIGHT * 0.1);
 
 // NEAT players population
 let population;
@@ -212,8 +212,34 @@ function draw() {
         // increase speed every frame
         obstSpeed += SPEED_INCREASE;
     }
+}
 
+// function to display the game stats
+// Score, High Score, Generation Number and No. of dino alive
+function displayStats() {
 
+}
 
+// function to calculate the current highest score of the current generation
+// receives the current generation of dinos
+// returns the current highest score
+function calcCurrentScore(dinos) {
+    let score = 0;
+    for(let i = 0; i < dinos.length; i++) {
+        if(score < dinos[i].gameScore) {
+            score = dinos[i].gameScore;
+        }
+    }
+    return score;
+}
 
+// function to calculate the highest score out of all the generations
+// receives the current score and current high score
+// returns the high score
+function calcHighScore(currentScore, currentHighScore) {
+    let highScore = currentHighScore;
+    if(highScore < currentScore) {
+        highScore = currentScore;
+    }
+    return highScore;
 }
