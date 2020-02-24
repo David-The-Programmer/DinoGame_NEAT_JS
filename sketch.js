@@ -104,7 +104,19 @@ let birdImg1;
 let birdImg2;
 
 // game score to be displayed
-let gameScore = new TextTag(CANVAS_WIDTH * 0.9, CANVAS_HEIGHT * 0.1);
+let gameScoreTag = new TextTag();
+
+// high score to be displayed
+let highScoreTag = new TextTag();
+
+// number of generations to be displayed
+let numGensTag = new TextTag();
+
+// number of dinos alive
+let numDinosAliveTag = new TextTag();
+
+// high score
+let highScore = 0;
 
 // NEAT players population
 let population;
@@ -156,7 +168,6 @@ function setup() {
 function draw() {
     // main game loop here
     background(255);
-    // gameScore.draw(dino.gameScore);
     ground.draw();
 
     // Once all the dinos die, 
@@ -212,12 +223,23 @@ function draw() {
         // increase speed every frame
         obstSpeed += SPEED_INCREASE;
     }
+    displayStats();
 }
 
 // function to display the game stats
 // Score, High Score, Generation Number and No. of dino alive
 function displayStats() {
+    let score = calcCurrentScore(dinos);
+    highScore = calcHighScore(score, highScore);
 
+    gameScoreTag.updateText(`${score}`);
+    highScoreTag.updateText(`HI ${highScore}`);
+
+    gameScoreTag.updateCoords(CANVAS_WIDTH - gameScoreTag.getWidth(), gameScoreTag.getHeight());
+    highScoreTag.updateCoords(CANVAS_WIDTH - (highScoreTag.getWidth() * 2), highScoreTag.getHeight());
+
+    gameScoreTag.draw();
+    highScoreTag.draw();
 }
 
 // function to calculate the current highest score of the current generation
